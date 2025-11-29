@@ -20,7 +20,7 @@ BANK_NAMES = {
 
 # Scraping Configuration
 SCRAPING_CONFIG = {
-    'reviews_per_bank': int(os.getenv('REVIEWS_PER_BANK', 2000)),  # Number of reviews per bank
+    'reviews_per_bank': int(os.getenv('REVIEWS_PER_BANK', 1000)),  # Number of reviews per bank
     'max_retries': int(os.getenv('MAX_RETRIES', 3)),              # Retry attempts if scraping fails
     'lang': 'en',                                                 # Language of reviews
     'country': 'et'                                               # Country code (Ethiopia)
