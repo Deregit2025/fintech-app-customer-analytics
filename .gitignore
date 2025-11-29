@@ -1,62 +1,5 @@
-<<<<<<< Updated upstream
-# ========================
-# Environment & Secrets
-# ========================
-.env
-.env*/               # includes .env.qa, .env.dev, etc.
 
-# ========================
-# Data & Sensitive Files
-# ========================
-data/
-*.db
-*.sqlite
-*.sqlite3
-*.csv
-*.xlsx
 
-# ========================
-# Virtual Environment
-# ========================
-.venv/
-venv/
-env/
-
-# ========================
-# Python Cache
-# ========================
-__pycache__/
-*.py[cod]
-*.pyo
-
-# ========================
-# Logs & Reports
-# ========================
-*.log
-logs/
-report/
-reports/
-
-# ========================
-# IDE Specific
-# ========================
-.vscode/
-.idea/
-
-# ========================
-# OS / Misc
-# ========================
-.DS_Store
-Thumbs.db
-
-# ========================
-# Scraping output / Raw files
-# ========================
-raw_data/
-output/
-tmp/
-temp/
-=======
 # -------------------------
 # Python
 # -------------------------
@@ -141,4 +84,4 @@ desktop.ini
 # -------------------------
 .cache/
 .history/
->>>>>>> Stashed changes
+
