@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 # ========================
 # Environment & Secrets
 # ========================
@@ -55,3 +56,89 @@ raw_data/
 output/
 tmp/
 temp/
+=======
+# -------------------------
+# Python
+# -------------------------
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pkl
+*.egg-info/
+.eggs/
+
+# Virtual environment
+.env
+.venv/
+env/
+venv/
+ENV/
+
+# -------------------------
+# Jupyter Notebook
+# -------------------------
+.ipynb_checkpoints/
+
+# -------------------------
+# Environment Variables
+# -------------------------
+.env
+.env.*
+*.env
+
+# -------------------------
+# Project Data
+# -------------------------
+data/raw/
+data/interim/
+data/temp/
+data/cache/
+data/*/*.csv   # In case raw/exported accidentally added
+!data/processed/reviews_processed.csv  # Keep only processed dataset if needed
+
+# If you want to ignore all data completely, use:
+# data/
+
+# -------------------------
+# Logs and temp files
+# -------------------------
+logs/
+*.log
+*.tmp
+*.temp
+
+# -------------------------
+# OS Generated Files
+# -------------------------
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# -------------------------
+# IDE & Editor Settings
+# -------------------------
+# VS Code
+.vscode/
+
+# PyCharm
+.idea/
+
+# Others
+*.swp
+*~
+
+# -------------------------
+# Reports & Outputs
+# -------------------------
+*.pdf
+*.html
+*.xlsx
+*.docx
+
+# -------------------------
+# Cache & Compiled Files
+# -------------------------
+.cache/
+.history/
+>>>>>>> Stashed changes
