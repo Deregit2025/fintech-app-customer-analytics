@@ -1,60 +1,57 @@
-# src/db/create_tables.py
-
-# Purpose:
-# This script creates the necessary tables for storing bank info and reviews.
-# It uses the reusable connection from db_connection.py
-
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
 import psycopg2
-from db_connection import get_db_connection
+from db_connection import get_connection
 
 def create_tables():
-    """
-    Creates 'banks' and 'reviews' tables in the target database.
-    """
-    # SQL statements to create tables
-    create_banks_table = """
-    CREATE TABLE IF NOT EXISTS banks (
-        bank_id SERIAL PRIMARY KEY,
-        bank_name VARCHAR(100) NOT NULL,
-        app_name VARCHAR(100) NOT NULL
-    );
-    """
+    conn = get_connection()  # connects to DB_NAME
+    if conn is None:
+        print("❌ Failed to connect to the database.")
+        return
 
-    create_reviews_table = """
-    CREATE TABLE IF NOT EXISTS reviews (
-        review_id SERIAL PRIMARY KEY,
-        bank_id INT NOT NULL REFERENCES banks(bank_id),
-        review_text TEXT NOT NULL,
-        rating INT NOT NULL CHECK (rating >= 1 AND rating <= 5),
-        review_date DATE,
-        sentiment_label VARCHAR(20),
-        sentiment_score FLOAT,
-        source VARCHAR(50)
-    );
-    """
+    cursor = conn.cursor()
 
     try:
-        # Get DB connection
-        conn = get_db_connection()
-        cur = conn.cursor()
+        print("🚀 Creating tables...")
 
-        # Execute table creation
-        cur.execute(create_banks_table)
-        cur.execute(create_reviews_table)
+        # Create banks table
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS banks (
+                bank_id SERIAL PRIMARY KEY,
+                bank_code VARCHAR(10) UNIQUE NOT NULL,
+                bank_name VARCHAR(255) NOT NULL,
+                app_name VARCHAR(255)
+            );
+        """)
 
-        # Commit changes
+        # Create reviews table
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS reviews (
+                review_id SERIAL PRIMARY KEY,
+                bank_id INT NOT NULL,
+                review_text TEXT NOT NULL,
+                rating FLOAT,
+                review_date DATE,
+                sentiment_label VARCHAR(50),
+                sentiment_score FLOAT,
+                source VARCHAR(100),
+                FOREIGN KEY (bank_id) REFERENCES banks(bank_id) ON DELETE CASCADE
+            );
+        """)
+
         conn.commit()
-        print("Tables created successfully!")
+        print("🟢 Tables 'banks' and 'reviews' created successfully!")
 
-        # Close cursor and connection
-        cur.close()
+    except Exception as error:
+        print("🔴 Error creating tables:", error)
+        conn.rollback()
+
+    finally:
+        cursor.close()
         conn.close()
+        print("🔌 PostgreSQL connection closed.")
 
-    except Exception as e:
-        print(f"Error creating tables: {e}")
 
-# ----------------------------
-# Optional test: run this script
-# ----------------------------
 if __name__ == "__main__":
     create_tables()

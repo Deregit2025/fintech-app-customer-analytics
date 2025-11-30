@@ -1,39 +1,32 @@
-# src/db/db_connection.py
-
-# Purpose:
-# Provides a function to connect to the target PostgreSQL database.
-# Any script that needs to read/write data will import this function.
-
-import os
 import psycopg2
-from dotenv import load_dotenv
+from psycopg2 import OperationalError
+from configs.config import DB_HOST, DB_PORT, DB_NAME, DB_USER, DB_PASSWORD
 
-# ----------------------------
-# 1. Load environment variables
-# ----------------------------
-load_dotenv()  # Loads PG_HOST, PG_USER, PG_PASSWORD, PG_PORT, PG_DATABASE from .env
 
-def get_db_connection():
+def get_connection(dbname=None):
     """
-    Returns a connection object to the target PostgreSQL database.
-    Use this function wherever you need to interact with the DB.
+    Creates and returns a PostgreSQL connection.
+    If dbname is not provided, it connects to the DB_NAME from config.
     """
-    conn = psycopg2.connect(
-        host=os.getenv("PG_HOST"),
-        user=os.getenv("PG_USER"),
-        password=os.getenv("PG_PASSWORD"),
-        port=os.getenv("PG_PORT"),
-        database=os.getenv("PG_DATABASE")  # Connect directly to the target DB now
-    )
-    return conn
-
-# ----------------------------
-# Optional: test the connection
-# ----------------------------
-if __name__ == "__main__":
     try:
-        conn = get_db_connection()
-        print("Connection to database successful!")
+        connection = psycopg2.connect(
+            host=DB_HOST,
+            port=DB_PORT,
+            database=dbname or DB_NAME,
+            user=DB_USER,
+            password=DB_PASSWORD
+        )
+        print(f"🟢 Successfully connected to database: {dbname or DB_NAME}")
+        return connection
+
+    except OperationalError as error:
+        print("🔴 Error connecting to PostgreSQL database:", error)
+        return None
+
+
+if __name__ == "__main__":
+    # Optional: Test the connection directly
+    conn = get_connection()
+    if conn:
         conn.close()
-    except Exception as e:
-        print(f"Error connecting to database: {e}")
+        print("🔌 Connection closed successfully.")
