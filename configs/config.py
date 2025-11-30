@@ -1,8 +1,17 @@
 """
 Configuration file for Bank Reviews Analysis Project
 """
-
+from dotenv import load_dotenv
 import os
+
+# Load .env
+load_dotenv()
+
+DB_HOST = os.getenv("DB_HOST", "localhost")
+DB_PORT = int(os.getenv("DB_PORT", 5432))
+DB_NAME = os.getenv("DB_NAME", "bank_reviews")
+DB_USER = os.getenv("DB_USER", "postgres")
+DB_PASSWORD = os.getenv("DB_PASSWORD", "1221")
 
 # Google Play Store App IDs (actual bank apps)
 APP_IDS = {
