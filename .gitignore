@@ -12,7 +12,7 @@ __pycache__/
 .eggs/
 
 # Virtual environment
-.env
+.env/
 .venv/
 env/
 venv/
