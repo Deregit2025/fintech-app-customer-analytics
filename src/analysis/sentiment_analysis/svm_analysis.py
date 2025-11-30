@@ -37,7 +37,7 @@ def train_svm_sentiment(df: pd.DataFrame, text_column='review_text', label_colum
     - label_encoder: fitted label encoder
     """
     
-    # 1️⃣ Map ratings to sentiment labels
+    # 1️ Map ratings to sentiment labels
     def rating_to_sentiment(r):
         if r <= 2:
             return 'negative'
@@ -48,27 +48,27 @@ def train_svm_sentiment(df: pd.DataFrame, text_column='review_text', label_colum
     
     df['sentiment_label'] = df[label_column].apply(rating_to_sentiment)
     
-    # 2️⃣ Encode labels
+    # 2️ Encode labels
     le = LabelEncoder()
     y = le.fit_transform(df['sentiment_label'])
     
-    # 3️⃣ TF-IDF Vectorization
+    # 3️ TF-IDF Vectorization
     vectorizer = TfidfVectorizer(max_features=5000, ngram_range=(1,2))
     X = vectorizer.fit_transform(df[text_column].astype(str))
     
-    # 4️⃣ Train/Test split
+    # 4️ Train/Test split
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42, stratify=y)
     
-    # 5️⃣ Train SVM
+    # 5️ Train SVM
     model = LinearSVC()
     model.fit(X_train, y_train)
     
-    # 6️⃣ Evaluate
+    # 6️ Evaluate
     y_pred = model.predict(X_test)
     print("Classification Report:\n")
     print(classification_report(y_test, y_pred, target_names=le.classes_))
     
-    # 7️⃣ Save model/vectorizer if path provided
+    # 7️ Save model/vectorizer if path provided
     if save_model_path:
         os.makedirs(save_model_path, exist_ok=True)
         joblib.dump(model, os.path.join(save_model_path, 'svm_model.joblib'))

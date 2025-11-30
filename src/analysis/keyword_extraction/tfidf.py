@@ -22,3 +22,4 @@ def extract_tfidf_keywords_by_bank(df, bank_col='bank_name', text_col='review_te
         sorted_scores = sorted(scores.items(), key=lambda x: x[1], reverse=True)
         tfidf_keywords[bank] = sorted_scores[:top_n]
     return tfidf_keywords
+      
